@@ -1467,10 +1467,21 @@ h4 {
   text-transform: uppercase;
 }
 
-.method-badge .icon {
-  width: 13px;
-  height: 13px;
-  color: var(--clear-aqua);
+.method-badge__flags {
+  display: inline-flex;
+  align-items: center;
+}
+
+.method-badge__flags svg {
+  width: 15px;
+  height: 10px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.method-badge__flags svg:first-child {
+  margin-right: -3px;
+  z-index: 1;
 }
 
 /* ===========================================================================
