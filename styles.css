@@ -1459,7 +1459,7 @@ h4 {
   gap: 5px;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
-  background: #d4af37;
+  background: linear-gradient(135deg, #f6e29b 0%, #d4af37 45%, #a9791f 100%);
   color: #3a2a00;
   font-size: var(--fs-xs);
   font-weight: 700;
