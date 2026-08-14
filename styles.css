@@ -717,12 +717,26 @@ h4 {
   color: var(--muted);
 }
 
-.split-card__badge {
-  width: min(100%, 180px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px;
-  background: var(--surface-sunken);
+/*
+  Die Award-Wortmarke liegt als helles Cyan auf transparentem Grund und wuerde
+  auf Weiss verblassen. Kein Kasten drumherum: die Marke ist einfarbig, also
+  dient ihr Alphakanal als Maske und die Flaeche kommt aus dem Marken-Teal –
+  exakt #003e51 statt einer Filter-Annaeherung.
+*/
+.award-mark {
+  display: block;
+  width: min(100%, 230px);
+  aspect-ratio: 1024 / 394;
+  background-color: var(--deep-teal);
+  -webkit-mask: url("assets/awards/european-awards-medicine-2025.webp") no-repeat left center / contain;
+  mask: url("assets/awards/european-awards-medicine-2025.webp") no-repeat left center / contain;
+}
+
+/* Ohne Mask-Unterstuetzung waere die Flaeche ein teal Rechteck – dann lieber nichts. */
+@supports not ((-webkit-mask-image: url("#")) or (mask-image: url("#"))) {
+  .award-mark {
+    background-color: transparent;
+  }
 }
 
 /* ===========================================================================
@@ -1026,22 +1040,21 @@ h4 {
    =========================================================================== */
 .reason-layout {
   display: grid;
-  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 0.46fr) minmax(0, 1fr);
   gap: var(--gap);
-  align-items: stretch;
+  align-items: start;
 }
 
-/* Foto endet auf derselben Linie wie das 2x2-Raster. */
-.reason-layout .document-photo {
-  display: flex;
-  flex-direction: column;
-}
-
+/*
+  Freigestelltes Gruppenfoto im Querformat (ca. 1100x800). "cover" in einer
+  schmalen, hohen Spalte schneidet die beiden aeusseren Personen ab – deshalb
+  "contain" auf weisser Flaeche: das Bild bleibt vollstaendig.
+*/
 .reason-layout .document-photo img {
-  flex: 1 1 auto;
-  min-height: 320px;
-  aspect-ratio: auto;
-  object-position: center top;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: var(--surface);
+  padding: 10px;
 }
 
 .reason-grid {
@@ -1398,6 +1411,7 @@ h4 {
   padding: 16px 18px;
 }
 
+/* Einzige runde Form der Seite: die Schritt-Thumbnails im Ablauf. */
 .step-card img {
   grid-row: span 3;
   width: 64px;
@@ -1405,7 +1419,7 @@ h4 {
   object-fit: cover;
   background: var(--surface-alt);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
 }
 
 .step-card .card__index {
@@ -2405,12 +2419,16 @@ mark.todo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .hero__aside img,
-  .reason-layout .document-photo img {
+  /* Einspaltig traegt das Hero-Foto keine Spaltenhoehe mehr. */
+  .hero__aside img {
     flex: none;
     min-height: 0;
     aspect-ratio: 16 / 9;
     object-position: center 28%;
+  }
+
+  .reason-layout .document-photo img {
+    aspect-ratio: 16 / 9;
   }
 
   .split-card__media,
