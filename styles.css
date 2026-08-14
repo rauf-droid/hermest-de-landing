@@ -1667,7 +1667,7 @@ h4 {
 
 .trustpilot-list article {
   display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-columns: 220px minmax(0, 1fr);
   gap: 6px 20px;
   padding: 14px 0;
   border-bottom: 1px solid var(--border);
