@@ -1442,6 +1442,37 @@ h4 {
   aspect-ratio: 16 / 10;
 }
 
+.method-card__media-wrap {
+  position: relative;
+}
+
+.method-card__media-wrap .card__media {
+  margin: 0;
+}
+
+.method-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--deep-teal);
+  color: white;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.method-badge .icon {
+  width: 13px;
+  height: 13px;
+  color: var(--clear-aqua);
+}
+
 /* ===========================================================================
    ABLAUF – 3x2 gleiche Schrittkarten, keine Zeitachse
    =========================================================================== */
@@ -2230,24 +2261,6 @@ mark.todo {
   line-height: 1.35;
 }
 
-.footer-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: var(--radius-sm);
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.footer-cta:hover {
-  background: rgba(255, 255, 255, 0.1);
-  text-decoration: none;
-}
-
 .footer-columns {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2739,11 +2752,6 @@ mark.todo {
 
   .service-item {
     font-size: var(--fs-xs);
-  }
-
-  .footer-cta {
-    width: 100%;
-    justify-content: center;
   }
 
   .footer-certificate {
