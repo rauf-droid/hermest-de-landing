@@ -1,0 +1,2727 @@
+/* Source Serif 4 lokal eingebunden (kein Google-Fonts-Abruf, DSGVO-konform). */
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("assets/fonts/source-serif-4-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("assets/fonts/source-serif-4-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/*
+  ===========================================================================
+  DESIGN-SYSTEM
+  ---------------------------------------------------------------------------
+  Grundregel: Karte = Rahmen + Fläche. Kein Schlagschatten, kein Farbverlauf,
+  kein Glas, keine überlappenden Elemente.
+  Die Seitenfläche ist hellgrau, Karten sind weiß – dadurch trennt sich Inhalt
+  vom Untergrund ohne Schatten.
+  Hermest-Teal ist Aktions- und Akzentfarbe (CTA, Link, Zahl), keine
+  Abschnittsfläche. Dunkle Vollflächen gibt es genau zwei: der CTA vor den
+  Preisen und der Footer.
+  Vier Bausteine tragen die gesamte Seite:
+    A  Kartenraster (2/3/4 Spalten)   .card-grid + .card
+    B  50/50 Bild + Information       .split-card
+    C  Horizontale Daten-/Listenzeile .data-rows, .checked-list
+    D  Vergleichstabelle              .data-table
+  ===========================================================================
+*/
+:root {
+  /* Marke – nur für Aktion, Link, Akzent */
+  --deep-teal: #003e51;
+  --clinical-blue: #00708f;
+  --clear-aqua: #77c5d5;
+
+  /* Flächen */
+  --canvas: #f5f5f5;
+  --surface: #ffffff;
+  --surface-alt: #eeeff0;
+  --surface-sunken: #f8f8f8;
+
+  /* Linien */
+  --border: #dedede;
+  --border-strong: #cbcbcb;
+
+  /* Text */
+  --text: #1f2a2e;
+  --muted: #5b6870;
+
+  /* Form */
+  --radius: 4px;
+  --radius-sm: 3px;
+  --gap: 16px;
+  --container: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--canvas);
+  font-family: Arial, "Helvetica Neue", Helvetica, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  /* Deutsche Komposita sind lang – Silbentrennung verhindert Überläufe in schmalen Spalten. */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+/* In Überschriften, Buttons und Labels wirkt automatische Trennung unruhig. */
+h1,
+h2,
+h3,
+h4,
+.button,
+.header-cta,
+.fact-number,
+.price-card__amount,
+.section-label,
+.eyebrow,
+.box-label {
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.site-icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Markenglyphen sind Flächen, keine Konturen. */
+.icon--brand {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Zeigt an, dass der Link die Seite verlaesst. */
+.icon--inline {
+  width: 13px;
+  height: 13px;
+  margin-left: 5px;
+  vertical-align: -1px;
+}
+
+a {
+  color: var(--deep-teal);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.skip-link {
+  position: absolute;
+  top: -80px;
+  left: 16px;
+  z-index: 100;
+  background: var(--deep-teal);
+  color: white;
+  padding: 10px 14px;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.container {
+  width: min(var(--container), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+/* ===========================================================================
+   TYPOGRAFIE
+   Feste, ruhige Staffel. Gewichte nur 600 / 700 – kein 800, kein 900, kein 300.
+   =========================================================================== */
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 800px;
+  margin-bottom: 14px;
+  color: var(--deep-teal);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(34px, 3.8vw, 48px);
+  line-height: 1.12;
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: var(--deep-teal);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(26px, 2.9vw, 34px);
+  line-height: 1.16;
+}
+
+h3 {
+  margin-bottom: 8px;
+  color: var(--deep-teal);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.22;
+}
+
+h4 {
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.lead {
+  max-width: 780px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.eyebrow,
+.section-label,
+.box-label {
+  margin: 0 0 6px;
+  color: var(--clinical-blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ===========================================================================
+   KOPFZEILE
+   =========================================================================== */
+.site-header {
+  position: relative;
+  z-index: 20;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.service-strip {
+  background: #ececec;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: #3b464b;
+}
+
+.service-strip__inner {
+  display: flex;
+  gap: 8px 28px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 36px;
+  flex-wrap: wrap;
+}
+
+.service-strip__contact {
+  display: flex;
+  align-items: center;
+  gap: 8px 22px;
+  flex-wrap: wrap;
+}
+
+.service-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.service-item .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--clinical-blue);
+}
+
+.masthead {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  min-height: 72px;
+}
+
+.masthead__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand img {
+  width: 180px;
+  height: auto;
+}
+
+.primary-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.primary-nav a {
+  position: relative;
+  padding: 9px 0;
+  color: var(--text);
+}
+
+.primary-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 2px;
+  background: var(--clinical-blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+}
+
+.primary-nav a:hover {
+  color: var(--deep-teal);
+  text-decoration: none;
+}
+
+.primary-nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ===========================================================================
+   BUTTONS – 3 px Radius, keine Kapseln, kein Schatten
+   =========================================================================== */
+.header-cta,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid var(--deep-teal);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-cta,
+.button--primary {
+  background: var(--deep-teal);
+  color: white;
+}
+
+.button--primary:hover,
+.header-cta:hover {
+  background: #002f3d;
+  text-decoration: none;
+}
+
+.button--secondary {
+  background: var(--surface);
+  color: var(--deep-teal);
+  border-color: var(--border-strong);
+}
+
+.button--secondary:hover {
+  background: var(--surface-alt);
+  border-color: var(--deep-teal);
+  text-decoration: none;
+}
+
+.button--light {
+  border-color: white;
+  background: white;
+  color: var(--deep-teal);
+}
+
+.button--light:hover {
+  background: #e7edef;
+  text-decoration: none;
+}
+
+.button--ghost {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  color: white;
+}
+
+.button--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.button--full {
+  width: 100%;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* Buttonverhalten, Optik eines Textlinks – für sekundäre Aktionen. */
+.link-trigger,
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--deep-teal);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link-trigger:hover,
+.text-link:hover {
+  color: var(--clinical-blue);
+}
+
+/* ===========================================================================
+   SCHWEBENDE KONTAKTELEMENTE
+   Einzige Ausnahme von der Schattenregel: Elemente, die über dem Inhalt
+   liegen, brauchen eine minimale Abgrenzung.
+   =========================================================================== */
+.wa-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 54px;
+  padding: 0 16px;
+  border-radius: var(--radius);
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity 220ms ease, transform 220ms ease, visibility 220ms,
+    gap 180ms ease, padding 180ms ease;
+}
+
+.wa-float.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.wa-float:hover {
+  background: #1fbb59;
+  text-decoration: none;
+}
+
+.wa-float .icon {
+  width: 25px;
+  height: 25px;
+}
+
+.wa-float__label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 15px;
+  opacity: 0;
+  transition: max-width 220ms ease, opacity 180ms ease;
+}
+
+.wa-float:hover .wa-float__label,
+.wa-float:focus-visible .wa-float__label {
+  max-width: 220px;
+  margin-left: 10px;
+  opacity: 1;
+}
+
+.wa-float:focus-visible {
+  outline: 3px solid var(--deep-teal);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-float,
+  .wa-float__label,
+  .mobile-cta {
+    transition: none;
+  }
+}
+
+/* Mobiler Dauer-CTA: erscheint erst nach dem Hero, damit er den Einstieg nicht verdeckt. */
+.mobile-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: none;
+  gap: 9px;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  transform: translateY(110%);
+  transition: transform 220ms ease;
+}
+
+.mobile-cta.is-visible {
+  transform: translateY(0);
+}
+
+.mobile-cta__call,
+.mobile-cta__main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid var(--deep-teal);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.mobile-cta__call {
+  flex: 0 0 auto;
+  background: white;
+  color: var(--deep-teal);
+}
+
+.mobile-cta__main {
+  flex: 1 1 auto;
+  background: var(--deep-teal);
+  color: white;
+}
+
+.mobile-cta__call:hover,
+.mobile-cta__main:hover {
+  text-decoration: none;
+}
+
+/* ===========================================================================
+   ABSCHNITTSRASTER
+   Ein Abstand für alle Abschnitte. Flächenwechsel nur zwischen grauer
+   Seitenfläche und weiß – keine Farbverläufe, keine Sonderfarben.
+   =========================================================================== */
+.section-block {
+  padding: 40px 0;
+}
+
+.section-block--white {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Zwei aufeinanderfolgende weiße Abschnitte: nur eine Trennlinie. */
+.section-block--white + .section-block--white {
+  border-top: 0;
+}
+
+.section-heading {
+  max-width: 860px;
+  margin-bottom: 20px;
+}
+
+.section-heading--split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.55fr);
+  gap: 8px 30px;
+  max-width: none;
+  align-items: end;
+}
+
+.section-heading p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+/* Leichter Wiedereinstieg für Abschnitte ohne eigenen CTA-Block. */
+.section-cta {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===========================================================================
+   BAUSTEIN A – KARTENRASTER
+   Zertifikate, Gründe, Ärzte, Fälle, Methoden, Ablauf, Aufenthalt, Preise.
+   Jede Karte: gleiche Höhe, gleiches Padding, gleicher Rahmen.
+   =========================================================================== */
+.card-grid {
+  display: grid;
+  gap: var(--gap);
+}
+
+.card-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.card__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 18px 20px 20px;
+}
+
+.card__index {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--clinical-blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.card h3 {
+  margin-bottom: 6px;
+  font-size: 19px;
+}
+
+.card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.card__foot {
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+/* ===========================================================================
+   BAUSTEIN B – 50/50 BILD + INFORMATION
+   =========================================================================== */
+.split-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.split-card--spaced {
+  margin-top: var(--gap);
+}
+
+.split-card__media {
+  margin: 0;
+  min-height: 250px;
+  background: var(--surface-alt);
+}
+
+.split-card__media img {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+.split-card__body {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 24px 26px;
+}
+
+.split-card__body p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.split-card__badge {
+  width: min(100%, 180px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  background: var(--surface-sunken);
+}
+
+/* ===========================================================================
+   BAUSTEIN C – HORIZONTALE DATEN- UND LISTENZEILEN
+   Gleiches Muster in .quick-spec, .checked-list, .package-detail__grid,
+   .trustpilot-list und .faq-list: Zeile, Trennlinie, kein Kasten.
+   =========================================================================== */
+.checked-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checked-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+}
+
+.checked-list li:last-child {
+  margin-bottom: 0;
+}
+
+.checked-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--clinical-blue);
+  font-weight: 700;
+}
+
+/* ===========================================================================
+   BAUSTEIN D – VERGLEICHSTABELLE
+   =========================================================================== */
+.table-wrap {
+  margin-top: 18px;
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.data-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.data-table caption {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-sunken);
+  color: var(--deep-teal);
+  text-align: left;
+  font-weight: 700;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  font-size: 15px;
+}
+
+.data-table th {
+  background: var(--surface-sunken);
+  color: var(--deep-teal);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ===========================================================================
+   HERO
+   Links 55 % Text, Aktion und Kurzdaten – rechts 45 % ein Klinikfoto.
+   Keine schwebenden Badges, keine Überlagerungen.
+   =========================================================================== */
+.hero {
+  padding: 34px 0 38px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(320px, 1fr);
+  gap: 34px;
+  align-items: stretch;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.quick-spec {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.quick-spec div {
+  padding: 12px 18px;
+  border-right: 1px solid var(--border);
+}
+
+.quick-spec div:first-child {
+  padding-left: 0;
+}
+
+.quick-spec div:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.quick-spec dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.quick-spec dt .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--clinical-blue);
+}
+
+.quick-spec dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Einfaches Foto mit Bildunterschrift – überall gleich. */
+.document-photo {
+  margin: 0;
+}
+
+.document-photo img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.document-photo figcaption {
+  padding: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/*
+  Das Foto waechst auf die Hoehe der Textspalte – beide Spalten enden auf einer
+  Linie. Fixe Seitenverhaeltnisse wuerden je nach Zeilenumbruch der H1 kippen.
+*/
+.hero__aside {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__aside img {
+  flex: 1 1 auto;
+  min-height: 340px;
+  aspect-ratio: auto;
+}
+
+/* ===========================================================================
+   AUF EINEN BLICK – Kennzahlen und Kurzfassung direkt unter dem Hero
+   =========================================================================== */
+.snapshot {
+  padding: 26px 0;
+}
+
+.snapshot__facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.snapshot__facts div {
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.fact-number {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--deep-teal);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.fact-number sup {
+  font-size: 0.5em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.fact-label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.snapshot__summary {
+  margin-top: var(--gap);
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.snapshot__summary .checked-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px 24px;
+}
+
+.snapshot__summary .checked-list li {
+  margin-bottom: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.snapshot__note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* ===========================================================================
+   ZERTIFIKATE – vier gleich breite, gleich hohe Karten in einer Zeile
+   =========================================================================== */
+.cert-card__logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 68px;
+  padding: 10px 20px 0;
+}
+
+/*
+  Gleiche optische Groesse fuer alle vier Siegel – keines darf "premiumer" wirken.
+  Quadratische Siegel (TUEV, GPTW) brauchen mehr Hoehe als die breiten Wortmarken,
+  sonst wirken sie neben JCI und ISO wie Fussnoten.
+*/
+.cert-card__logo img {
+  width: auto;
+  height: 40px;
+  max-width: 120px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.cert-card__logo img[src*="tuev"],
+.cert-card__logo img[src*="great-place"] {
+  height: 56px;
+}
+
+.cert-card .card__body {
+  padding-top: 10px;
+}
+
+.cert-card h3 {
+  font-size: 17px;
+}
+
+.cert-card p {
+  font-size: 14px;
+}
+
+/* ===========================================================================
+   WARUM HERMEST – Foto (2/5) + 2x2 Gründe
+   =========================================================================== */
+.reason-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+  gap: var(--gap);
+  align-items: stretch;
+}
+
+/* Foto endet auf derselben Linie wie das 2x2-Raster. */
+.reason-layout .document-photo {
+  display: flex;
+  flex-direction: column;
+}
+
+.reason-layout .document-photo img {
+  flex: 1 1 auto;
+  min-height: 320px;
+  aspect-ratio: auto;
+  object-position: center top;
+}
+
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.reason-grid .card__body {
+  padding: 18px 20px;
+}
+
+.reason-grid h3 {
+  font-size: 18px;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.support-grid div {
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.support-grid strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--deep-teal);
+  font-size: 15px;
+}
+
+.support-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* ===========================================================================
+   ÄRZTE – zwei identische Karten, Porträt oben
+   =========================================================================== */
+/*
+  height: auto ist noetig – sonst gewinnt das height-Attribut des <img> (890 px)
+  gegen aspect-ratio und die Karte wird meterhoch.
+*/
+.doctor-card__portrait {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  object-position: 50% 6%;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.doctor-card__role {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--clinical-blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.doctor-card__name {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--deep-teal);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* ===========================================================================
+   PATIENTENVIDEO – helle Karte, Video links, Text rechts
+   =========================================================================== */
+.patient-story {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.patient-video-frame {
+  padding: 20px;
+  border-right: 1px solid var(--border);
+}
+
+.video-shell {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
+  background: #05090a;
+}
+
+.video-shell iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  background: #05090a;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.video-poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 9, 10, 0.18);
+}
+
+.video-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.video-poster:hover img,
+.video-poster:focus-visible img {
+  transform: scale(1.03);
+}
+
+.video-poster:focus-visible {
+  outline: 3px solid var(--clinical-blue);
+  outline-offset: -3px;
+}
+
+.video-play {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+}
+
+.video-play__icon {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius);
+  background: white;
+}
+
+.video-play__icon::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 16px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid var(--deep-teal);
+}
+
+.video-caption {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.video-privacy {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.video-privacy .icon {
+  width: 15px;
+  height: 15px;
+  margin-top: 1px;
+  color: var(--clinical-blue);
+}
+
+.patient-copy {
+  display: grid;
+  align-content: center;
+  padding: 24px 26px;
+}
+
+.patient-copy .lead {
+  margin-bottom: 0;
+}
+
+.patient-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  margin-top: 18px;
+}
+
+/* ===========================================================================
+   VORHER & NACHHER – drei gleiche Fallkarten
+   =========================================================================== */
+.case-card__method {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--deep-teal);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.case-card__period {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.caption-box {
+  margin-top: var(--gap);
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--clinical-blue);
+  border-radius: var(--radius);
+  font-size: 15px;
+}
+
+/* ===========================================================================
+   CTA-BÄNDER
+   Hell ist der Standard. Dunkel genau einmal, vor den Preisen.
+   =========================================================================== */
+.cta-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px 26px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 22px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.cta-band h3 {
+  margin-bottom: 5px;
+  font-size: 21px;
+}
+
+.cta-band p {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.cta-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cta-band__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+}
+
+.cta-band__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cta-band__meta .icon {
+  width: 15px;
+  height: 15px;
+  color: var(--clinical-blue);
+}
+
+/* Einzige dunkle Vollfläche im Inhalt. */
+.cta-band--dark {
+  background: var(--deep-teal);
+  border-color: var(--deep-teal);
+  color: white;
+}
+
+.cta-band--dark h3 {
+  color: white;
+}
+
+.cta-band--dark p,
+.cta-band--dark .cta-band__meta span {
+  color: #cfe0e4;
+}
+
+.cta-band--dark .cta-band__meta .icon {
+  color: var(--clear-aqua);
+}
+
+/* ===========================================================================
+   METHODEN
+   =========================================================================== */
+.method-card .card__media {
+  aspect-ratio: 16 / 10;
+}
+
+/* ===========================================================================
+   ABLAUF – 3x2 gleiche Schrittkarten, keine Zeitachse
+   =========================================================================== */
+.step-card .card__body {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 4px 16px;
+  align-content: start;
+  padding: 16px 18px;
+}
+
+.step-card img {
+  grid-row: span 3;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.step-card .card__index {
+  margin-bottom: 0;
+  align-self: end;
+}
+
+.step-card h3 {
+  margin-bottom: 4px;
+  font-size: 17px;
+}
+
+.step-card p {
+  font-size: 14px;
+}
+
+/* ===========================================================================
+   PREISE – drei weiße Preiskarten, schwarzer Preis, Hermest-CTA
+   =========================================================================== */
+.price-card .card__body {
+  padding: 20px;
+}
+
+.price-card__from {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.price-card__amount {
+  display: block;
+  margin: 2px 0;
+  color: var(--text);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.price-card__scope {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.price-card__includes {
+  margin: 0 0 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.price-card__includes li {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.price-card .button {
+  margin-top: auto;
+}
+
+.package-detail {
+  margin-top: 22px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.package-detail__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 24px;
+  margin-top: 12px;
+}
+
+.package-detail__grid div {
+  position: relative;
+  padding-left: 22px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.package-detail__grid div::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--clinical-blue);
+  font-weight: 700;
+}
+
+.package-detail__note {
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ===========================================================================
+   AUFENTHALT
+   =========================================================================== */
+.stay-card .card__media {
+  aspect-ratio: 16 / 9;
+}
+
+/* ===========================================================================
+   KLINIK UND BEWERTUNGEN
+   =========================================================================== */
+.clinic-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.clinic-gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.clinic-gallery img:nth-child(1),
+.clinic-gallery img:nth-child(2) {
+  grid-column: span 3;
+  aspect-ratio: 16 / 9;
+}
+
+.trustpilot-digest {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.4fr) minmax(0, 1fr);
+  margin-top: 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.trustpilot-digest__intro {
+  padding: 22px;
+  border-right: 1px solid var(--border);
+}
+
+.trustpilot-digest__intro h3 {
+  font-size: 20px;
+}
+
+.trustpilot-digest__intro p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.trustpilot-logo {
+  width: 124px;
+  height: auto;
+  margin-bottom: 14px;
+}
+
+.trustpilot-scoreline {
+  display: grid;
+  gap: 2px;
+  margin: 14px 0;
+  padding-left: 12px;
+  border-left: 3px solid #00b67a;
+}
+
+.trustpilot-scoreline strong {
+  color: var(--deep-teal);
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.trustpilot-scoreline span {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.trustpilot-link {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trustpilot-list {
+  padding: 4px 22px 8px;
+}
+
+.trustpilot-list article {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 6px 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.trustpilot-list article:last-child {
+  border-bottom: 0;
+}
+
+.trustpilot-meta {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+
+.trustpilot-stars {
+  display: block;
+  width: 96px;
+  height: 20px;
+}
+
+.trustpilot-meta small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.trustpilot-list p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+/* ===========================================================================
+   PRESSE – gleich große, ruhige Logokarten
+   =========================================================================== */
+.press-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.press-logo-grid a {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 84px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.18s ease;
+}
+
+.press-logo-grid a:hover {
+  border-color: var(--border-strong);
+  text-decoration: none;
+}
+
+.press-logo-grid img {
+  max-width: 160px;
+  max-height: 40px;
+  object-fit: contain;
+}
+
+.press-logo-grid img[src$="abendzeitung.svg"],
+.press-logo-grid img[src$="der-spiegel.svg"] {
+  max-height: 48px;
+}
+
+/* ===========================================================================
+   FAQ
+   =========================================================================== */
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.4fr) minmax(0, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.faq-intro {
+  position: sticky;
+  top: 74px;
+}
+
+.faq-intro p {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.faq-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 20px;
+}
+
+.faq-list details {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-list details:last-of-type {
+  border-bottom: 0;
+}
+
+.faq-list summary {
+  position: relative;
+  cursor: pointer;
+  padding: 14px 40px 14px 0;
+  color: var(--deep-teal);
+  font-weight: 700;
+  list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 20px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--clinical-blue);
+  border-bottom: 2px solid var(--clinical-blue);
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.faq-list details[open] summary::after {
+  transform: rotate(-135deg);
+  top: 24px;
+}
+
+.faq-list summary:hover {
+  color: var(--clinical-blue);
+}
+
+.faq-list p {
+  margin: 0;
+  padding: 0 40px 16px 0;
+  color: var(--muted);
+}
+
+.faq-cta {
+  margin: 18px 0 20px;
+}
+
+/* ===========================================================================
+   KONTAKT UND FORMULARE
+   =========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.contact-grid > div > p {
+  color: var(--muted);
+}
+
+.reassure {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reassure li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.reassure .icon {
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  color: var(--clinical-blue);
+}
+
+.contact-photo {
+  margin-top: 18px;
+}
+
+.contact-photo img {
+  aspect-ratio: 16 / 9;
+}
+
+.analysis-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.analysis-form label {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: var(--deep-teal);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.analysis-form input,
+.analysis-form select,
+.analysis-form textarea {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--text);
+  padding: 11px 12px;
+  font-weight: 400;
+}
+
+.analysis-form input:focus,
+.analysis-form select:focus,
+.analysis-form textarea:focus {
+  outline: 3px solid rgba(0, 112, 143, 0.25);
+  border-color: var(--clinical-blue);
+}
+
+.privacy-note {
+  margin: 14px 0 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  font-size: 14px;
+}
+
+.analysis-form .consent {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin: 0 0 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.analysis-form .consent input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: var(--clinical-blue);
+  cursor: pointer;
+}
+
+.analysis-form .consent a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.consent__note {
+  display: block;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.analysis-form .consent:has(:focus-visible) {
+  outline: 3px solid rgba(0, 112, 143, 0.25);
+  border-color: var(--clinical-blue);
+}
+
+.form-status {
+  min-height: 22px;
+  margin: 12px 0 0;
+  color: var(--deep-teal);
+  font-weight: 700;
+}
+
+/*
+  Schnellkontakt-Modal: ein <dialog> für alle Auslöser im Text.
+  Die Kartenoptik kommt vom wiederverwendeten .analysis-form.
+*/
+dialog[data-lead-modal] {
+  width: min(420px, 92vw);
+  max-height: 88vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+dialog[data-lead-modal]::backdrop {
+  background: rgba(20, 30, 34, 0.55);
+}
+
+dialog[data-lead-modal][open] {
+  display: grid;
+}
+
+.analysis-form--modal {
+  position: relative;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.lead-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.lead-modal__close:hover {
+  color: var(--deep-teal);
+}
+
+.lead-modal__close .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.analysis-form--modal h3 {
+  max-width: calc(100% - 40px);
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+
+.lead-modal__subtext {
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* ===========================================================================
+   IMPRESSUM
+   =========================================================================== */
+.masthead--legal {
+  grid-template-columns: 180px minmax(0, 1fr);
+  justify-items: end;
+}
+
+.legal-back {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.legal-page {
+  background: var(--surface);
+}
+
+.legal-page__inner {
+  max-width: 780px;
+}
+
+.legal-page h1 {
+  font-size: clamp(32px, 3.6vw, 44px);
+}
+
+.legal-page .lead {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.legal-flag {
+  margin: 20px 0 26px;
+  padding: 14px 16px;
+  border: 1px solid #e3d4a4;
+  border-left: 3px solid #b8860b;
+  border-radius: var(--radius-sm);
+  background: #fdf8ea;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.legal-block {
+  padding-top: 22px;
+  margin-top: 22px;
+  border-top: 1px solid var(--border);
+}
+
+.legal-block h2 {
+  font-size: clamp(20px, 2.4vw, 24px);
+  margin-bottom: 12px;
+}
+
+.legal-block p {
+  margin-bottom: 12px;
+}
+
+.legal-dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.legal-dl div {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 18px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-dl div:last-child {
+  border-bottom: 0;
+}
+
+.legal-dl dt,
+.legal-dl dd {
+  margin: 0;
+}
+
+.legal-dl dt {
+  color: var(--deep-teal);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.legal-dl dd {
+  color: var(--muted);
+}
+
+mark.todo {
+  background: #fff2a8;
+  box-shadow: inset 0 0 0 1px #d8b52a;
+  color: #4a3a00;
+  padding: 2px 6px;
+  font-size: 14px;
+}
+
+/* ===========================================================================
+   FOOTER – zweite und letzte dunkle Fläche
+   =========================================================================== */
+.site-footer {
+  background: var(--deep-teal);
+  color: #eaf3f6;
+  padding: 36px 0 0;
+}
+
+.site-footer--legal {
+  padding-top: 0;
+}
+
+.site-footer--legal .footer-bottom {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.footer-brand {
+  max-width: 430px;
+}
+
+.footer-brand p {
+  color: #cfe0e4;
+  font-size: 15px;
+}
+
+.footer-logo {
+  width: 180px;
+  max-width: 100%;
+  margin-bottom: 14px;
+  filter: brightness(0) invert(1);
+}
+
+.footer-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 16px 0 18px;
+}
+
+.footer-badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #dcecef;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.footer-badges .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--clear-aqua);
+}
+
+.footer-certificate {
+  max-width: 300px;
+  margin: 14px 0 18px;
+}
+
+.footer-certificate img {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.footer-certificate figcaption {
+  margin-top: 8px;
+  color: #b6ccd2;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.footer-col {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+}
+
+.footer-contact {
+  font-style: normal;
+}
+
+.site-footer h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  color: white;
+  font-size: 16px;
+}
+
+.site-footer h3 .icon {
+  width: 17px;
+  height: 17px;
+  color: var(--clear-aqua);
+}
+
+.site-footer a {
+  color: #eaf3f6;
+}
+
+.site-footer p {
+  margin-bottom: 0;
+}
+
+.footer-col > a {
+  display: inline-flex;
+  width: fit-content;
+  color: #cfe0e4;
+  font-size: 14px;
+}
+
+.footer-col > a:hover,
+.footer-contact-link:hover,
+.footer-bottom a:hover {
+  color: white;
+}
+
+.footer-contact-link {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  color: #cfe0e4;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.footer-contact-link .icon {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--clear-aqua);
+}
+
+.footer-bottom {
+  display: flex;
+  gap: 12px 24px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: #b6ccd2;
+  font-size: 12px;
+}
+
+.footer-bottom a {
+  color: #cfe0e4;
+  font-weight: 700;
+}
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+}
+
+/* ===========================================================================
+   BREAKPOINTS
+   =========================================================================== */
+@media (max-width: 1060px) {
+  .masthead {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: white;
+    color: var(--deep-teal);
+    padding: 9px 12px;
+    min-height: 42px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .menu-toggle__bars {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--deep-teal);
+  }
+
+  .menu-toggle__bars::before,
+  .menu-toggle__bars::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background: var(--deep-teal);
+  }
+
+  .menu-toggle__bars::before {
+    top: -6px;
+  }
+
+  .menu-toggle__bars::after {
+    top: 6px;
+  }
+
+  .masthead__actions {
+    justify-self: end;
+  }
+
+  /* CTA bleibt sichtbar, nur kompakter – Conversion-Einstieg darf nie verschwinden. */
+  .header-cta {
+    padding: 10px 13px;
+  }
+
+  .header-cta span {
+    display: none;
+  }
+
+  .header-cta::after {
+    content: "Haaranalyse";
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  .primary-nav.is-open {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 0;
+    padding: 6px 0 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .primary-nav.is-open a {
+    padding: 12px 2px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .primary-nav.is-open a::after {
+    display: none;
+  }
+
+  .service-item--mail {
+    display: none;
+  }
+
+  .mobile-cta {
+    display: flex;
+  }
+
+  /* Platz für die fixierte Leiste, damit der Footer nicht verdeckt wird. */
+  body {
+    padding-bottom: 70px;
+  }
+
+  /* Über die CTA-Leiste heben, damit sich beide nicht überlagern. */
+  .wa-float {
+    right: 14px;
+    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+    height: 50px;
+    padding: 0 14px;
+  }
+
+  .wa-float .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Auf Touchgeräten gibt es kein Hover – Label bleibt eingeklappt. */
+  .wa-float__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .hero__grid,
+  .reason-layout,
+  .patient-story,
+  .trustpilot-digest,
+  .split-card,
+  .faq-layout,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-video-frame,
+  .trustpilot-digest__intro {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-grid--4,
+  .press-logo-grid,
+  .snapshot__facts,
+  .snapshot__summary .checked-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero__aside img,
+  .reason-layout .document-photo img {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    object-position: center 28%;
+  }
+
+  .split-card__media,
+  .split-card__media img {
+    min-height: 220px;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .faq-intro {
+    position: static;
+  }
+}
+
+@media (max-width: 840px) {
+  .section-block {
+    padding: 30px 0;
+  }
+
+  .hero {
+    padding: 26px 0 30px;
+  }
+
+  .snapshot {
+    padding: 20px 0;
+  }
+
+  .service-strip__inner {
+    justify-content: flex-start;
+  }
+
+  .quick-spec,
+  .card-grid--3,
+  .package-detail__grid,
+  .support-grid,
+  .section-heading--split {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ablauf und Methoden bleiben zweispaltig – sechs volle Zeilen wären zu lang. */
+  .card-grid--3.card-grid--pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cta-band {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .footer-columns {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .footer-bottom {
+    justify-content: flex-start;
+  }
+
+  .clinic-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .clinic-gallery img:nth-child(1),
+  .clinic-gallery img:nth-child(2) {
+    grid-column: span 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .quick-spec div {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .quick-spec div:last-child {
+    border-bottom: 0;
+  }
+
+  .trustpilot-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .table-wrap {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .data-table {
+    min-width: 0;
+  }
+
+  .data-table caption {
+    border: 1px solid var(--border);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .data-table thead {
+    display: none;
+  }
+
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .data-table tr {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    background: white;
+  }
+
+  .data-table td {
+    border-top: 0;
+    border-bottom: 1px solid var(--border);
+    padding-left: 46%;
+    position: relative;
+    min-height: 44px;
+  }
+
+  .data-table td:last-child {
+    border-bottom: 0;
+  }
+
+  .data-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: calc(46% - 24px);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: min(100% - 22px, var(--container));
+  }
+
+  .masthead {
+    min-height: 66px;
+    gap: 10px;
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+
+  .brand img {
+    width: 132px;
+  }
+
+  /* 390 px: Logo + CTA + Menue passen sonst nicht nebeneinander. */
+  .menu-toggle__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .menu-toggle {
+    padding: 9px 11px;
+  }
+
+  .card-grid--2,
+  .card-grid--4,
+  .card-grid--3.card-grid--pair,
+  .reason-grid,
+  .press-logo-grid,
+  .snapshot__summary .checked-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Kennzahlen sind kurz – zweispaltig bleibt lesbar und spart halbe Bildschirmhoehe. */
+  .snapshot__facts {
+    gap: 10px;
+  }
+
+  .fact-number {
+    font-size: 21px;
+  }
+
+  .service-strip__inner {
+    gap: 8px 16px;
+    padding: 6px 0;
+  }
+
+  .service-item {
+    font-size: 12px;
+  }
+
+  .footer-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-certificate {
+    max-width: 360px;
+  }
+
+  .hero-actions {
+    display: grid;
+    justify-items: start;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .step-card .card__body {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 4px 14px;
+  }
+
+  .step-card img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .clinic-gallery {
+    gap: 10px;
+  }
+
+  .video-play {
+    top: 10px;
+    left: 10px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .video-play__icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .video-play__icon::before {
+    left: 18px;
+    top: 14px;
+    border-top-width: 9px;
+    border-bottom-width: 9px;
+    border-left-width: 13px;
+  }
+
+  .patient-actions {
+    display: grid;
+    justify-items: start;
+  }
+
+  .patient-actions .button {
+    width: 100%;
+  }
+
+  .legal-dl div,
+  .data-rows > * {
+    grid-template-columns: 1fr;
+  }
+
+  .press-logo-grid img {
+    max-width: 150px;
+  }
+
+  .data-table td {
+    padding: 26px 12px 9px;
+    min-height: 0;
+  }
+
+  .data-table td::before {
+    top: 7px;
+    width: calc(100% - 24px);
+    font-size: 11px;
+  }
+}
+
+/* Sehr schmale Geraete (iPhone SE, 320 px): Kopfzeile weiter verdichten. */
+@media (max-width: 360px) {
+  .masthead {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 112px;
+  }
+
+  .header-cta {
+    padding: 10px 11px;
+    gap: 6px;
+  }
+
+  .header-cta::after {
+    content: "Analyse";
+  }
+
+  .masthead__actions {
+    gap: 8px;
+  }
+
+  .service-strip__inner {
+    gap: 6px 14px;
+  }
+}
