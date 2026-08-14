@@ -1470,18 +1470,16 @@ h4 {
 .method-badge__flags {
   display: inline-flex;
   align-items: center;
+  gap: 3px;
 }
 
-.method-badge__flags svg {
-  width: 15px;
-  height: 10px;
+.method-badge__flags .flag-icon {
+  display: block;
+  width: 18px;
+  height: 12px;
   border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
-}
-
-.method-badge__flags svg:first-child {
-  margin-right: -3px;
-  z-index: 1;
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: -0.5px;
 }
 
 /* ===========================================================================
