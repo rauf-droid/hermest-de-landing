@@ -60,6 +60,22 @@
   --radius-sm: 3px;
   --gap: 16px;
   --container: 1180px;
+
+  /*
+    Typografie-Skala – ein System für die ganze Seite.
+    Basis 16px / 27.2px Zeilenhöhe (Verhältnis 1.7), Stufenfaktor 1.25.
+    Mobil = Basisstufe, Desktop-Überschriften springen eine Stufe höher
+    (per --fs-h1-desktop/--fs-h2-desktop, s.u.).
+  */
+  --fs-2xs: 10px;
+  --fs-xs: 13px;
+  --fs-sm: 16px;
+  --fs-md: 20px;
+  --fs-lg: 25px;
+  --fs-xl: 31px;
+  --fs-2xl: 39px;
+  --fs-3xl: 49px;
+  --letter-spacing: 0px;
 }
 
 * {
@@ -76,8 +92,9 @@ body {
   color: var(--text);
   background: var(--canvas);
   font-family: Arial, "Helvetica Neue", Helvetica, system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  letter-spacing: var(--letter-spacing);
   /* Deutsche Komposita sind lang – Silbentrennung verhindert Überläufe in schmalen Spalten. */
   hyphens: auto;
   -webkit-hyphens: auto;
@@ -190,8 +207,8 @@ h1 {
   color: var(--deep-teal);
   font-family: "Source Serif 4", Georgia, serif;
   font-weight: 700;
-  font-size: clamp(34px, 3.8vw, 48px);
-  line-height: 1.12;
+  font-size: clamp(var(--fs-2xl), 3.8vw, var(--fs-3xl));
+  line-height: 1.15;
 }
 
 h2 {
@@ -199,28 +216,29 @@ h2 {
   color: var(--deep-teal);
   font-family: "Source Serif 4", Georgia, serif;
   font-weight: 600;
-  font-size: clamp(26px, 2.9vw, 34px);
-  line-height: 1.16;
+  font-size: clamp(var(--fs-xl), 2.9vw, var(--fs-2xl));
+  line-height: 1.18;
 }
 
 h3 {
   margin-bottom: 8px;
   color: var(--deep-teal);
   font-weight: 700;
-  font-size: 21px;
-  line-height: 1.22;
+  font-size: var(--fs-lg);
+  line-height: 1.25;
 }
 
 h4 {
   margin-bottom: 6px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: var(--fs-md);
+  line-height: 1.3;
 }
 
 .lead {
   max-width: 780px;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: var(--fs-md);
+  line-height: 1.5;
 }
 
 .eyebrow,
@@ -228,9 +246,9 @@ h4 {
 .box-label {
   margin: 0 0 6px;
   color: var(--clinical-blue);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--letter-spacing);
   text-transform: uppercase;
 }
 
@@ -247,7 +265,7 @@ h4 {
 .service-strip {
   background: #ececec;
   border-bottom: 1px solid var(--border);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   color: #3b464b;
 }
 
@@ -304,7 +322,7 @@ h4 {
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 18px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
   font-weight: 700;
 }
 
@@ -478,7 +496,7 @@ h4 {
   overflow: hidden;
   white-space: nowrap;
   font-weight: 700;
-  font-size: 15px;
+  font-size: var(--fs-sm);
   opacity: 0;
   transition: max-width 220ms ease, opacity 180ms ease;
 }
@@ -531,7 +549,7 @@ h4 {
   gap: 8px;
   min-height: 46px;
   padding: 10px 12px;
-  font-size: 15px;
+  font-size: var(--fs-sm);
   border: 1px solid var(--deep-teal);
   border-radius: var(--radius-sm);
   font-weight: 700;
@@ -653,20 +671,20 @@ h4 {
   display: block;
   margin-bottom: 6px;
   color: var(--clinical-blue);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--letter-spacing);
 }
 
 .card h3 {
   margin-bottom: 6px;
-  font-size: 19px;
+  font-size: var(--fs-md);
 }
 
 .card p {
   margin-bottom: 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
 }
 
@@ -819,13 +837,13 @@ h4 {
   border-bottom: 1px solid var(--border);
   text-align: left;
   vertical-align: top;
-  font-size: 15px;
+  font-size: var(--fs-sm);
 }
 
 .data-table th {
   background: var(--surface-sunken);
   color: var(--deep-teal);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   font-weight: 700;
 }
 
@@ -887,9 +905,9 @@ h4 {
   gap: 6px;
   margin-bottom: 4px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--letter-spacing);
   text-transform: uppercase;
 }
 
@@ -901,8 +919,12 @@ h4 {
 
 .quick-spec dd {
   margin: 0;
-  font-size: 15px;
+  font-size: var(--fs-sm);
   font-weight: 700;
+  hyphens: manual;
+  -webkit-hyphens: manual;
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 /* Einfaches Foto mit Bildunterschrift – überall gleich. */
@@ -927,7 +949,7 @@ h4 {
 .document-photo figcaption {
   padding: 8px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   line-height: 1.4;
 }
 
@@ -970,7 +992,7 @@ h4 {
   display: block;
   margin-bottom: 2px;
   color: var(--deep-teal);
-  font-size: 24px;
+  font-size: var(--fs-lg);
   font-weight: 700;
   line-height: 1.1;
 }
@@ -984,7 +1006,7 @@ h4 {
 .fact-label {
   display: block;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   line-height: 1.35;
 }
 
@@ -1004,14 +1026,14 @@ h4 {
 
 .snapshot__summary .checked-list li {
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: var(--fs-sm);
   line-height: 1.4;
 }
 
 .snapshot__note {
   margin: 12px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   line-height: 1.45;
 }
 
@@ -1049,11 +1071,11 @@ h4 {
 }
 
 .cert-card h3 {
-  font-size: 17px;
+  font-size: var(--fs-md);
 }
 
 .cert-card p {
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 /* ===========================================================================
@@ -1092,7 +1114,7 @@ h4 {
 }
 
 .reason-grid h3 {
-  font-size: 18px;
+  font-size: var(--fs-md);
 }
 
 .support-grid {
@@ -1113,13 +1135,13 @@ h4 {
   display: block;
   margin-bottom: 3px;
   color: var(--deep-teal);
-  font-size: 15px;
+  font-size: var(--fs-sm);
 }
 
 .support-grid span {
   display: block;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.45;
 }
 
@@ -1144,9 +1166,9 @@ h4 {
   display: block;
   margin-bottom: 2px;
   color: var(--clinical-blue);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--letter-spacing);
   line-height: 1.3;
   text-transform: uppercase;
 }
@@ -1156,7 +1178,7 @@ h4 {
   margin-bottom: 8px;
   color: var(--deep-teal);
   font-family: "Source Serif 4", Georgia, serif;
-  font-size: 23px;
+  font-size: var(--fs-lg);
   font-weight: 700;
   line-height: 1.1;
 }
@@ -1284,7 +1306,7 @@ h4 {
 .video-caption {
   margin: 12px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   line-height: 1.45;
 }
 
@@ -1297,7 +1319,7 @@ h4 {
   padding-top: 10px;
   border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   line-height: 1.45;
 }
 
@@ -1326,24 +1348,6 @@ h4 {
   margin-top: 18px;
 }
 
-/* ===========================================================================
-   VORHER & NACHHER – drei gleiche Fallkarten
-   =========================================================================== */
-.case-card__method {
-  display: block;
-  margin-bottom: 2px;
-  color: var(--deep-teal);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.case-card__period {
-  display: block;
-  color: var(--muted);
-  font-size: 14px;
-}
-
 .caption-box {
   margin-top: var(--gap);
   padding: 14px 18px;
@@ -1351,7 +1355,7 @@ h4 {
   border: 1px solid var(--border);
   border-left: 3px solid var(--clinical-blue);
   border-radius: var(--radius);
-  font-size: 15px;
+  font-size: var(--fs-sm);
 }
 
 /* ===========================================================================
@@ -1372,14 +1376,14 @@ h4 {
 
 .cta-band h3 {
   margin-bottom: 5px;
-  font-size: 21px;
+  font-size: var(--fs-lg);
 }
 
 .cta-band p {
   max-width: 620px;
   margin: 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
 }
 
@@ -1401,7 +1405,7 @@ h4 {
   align-items: center;
   gap: 7px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   font-weight: 700;
 }
 
@@ -1441,9 +1445,18 @@ h4 {
 /* ===========================================================================
    ABLAUF – 3x2 gleiche Schrittkarten, keine Zeitachse
    =========================================================================== */
+/*
+  96 px ist das Maximum, bei dem das Thumbnail die Karte nicht auseinanderzieht:
+  Kartenhoehe und Zeilenumbruch bleiben identisch zu 64 px, ab 108 px waechst
+  die Karte. Eine Variable haelt Spaltenbreite und Bildgroesse zusammen.
+*/
+.step-card {
+  --thumb: 96px;
+}
+
 .step-card .card__body {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: var(--thumb) minmax(0, 1fr);
   gap: 4px 16px;
   align-content: start;
   padding: 16px 18px;
@@ -1452,8 +1465,8 @@ h4 {
 /* Einzige runde Form der Seite: die Schritt-Thumbnails im Ablauf. */
 .step-card img {
   grid-row: span 3;
-  width: 64px;
-  height: 64px;
+  width: var(--thumb);
+  height: var(--thumb);
   object-fit: cover;
   background: var(--surface-alt);
   border: 1px solid var(--border);
@@ -1467,11 +1480,11 @@ h4 {
 
 .step-card h3 {
   margin-bottom: 4px;
-  font-size: 17px;
+  font-size: var(--fs-md);
 }
 
 .step-card p {
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 /* ===========================================================================
@@ -1484,9 +1497,9 @@ h4 {
 .price-card__from {
   display: block;
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--letter-spacing);
   text-transform: uppercase;
 }
 
@@ -1494,7 +1507,7 @@ h4 {
   display: block;
   margin: 2px 0;
   color: var(--text);
-  font-size: 36px;
+  font-size: var(--fs-2xl);
   font-weight: 700;
   line-height: 1.05;
 }
@@ -1503,7 +1516,7 @@ h4 {
   display: block;
   margin-bottom: 14px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 .price-card__includes {
@@ -1513,7 +1526,7 @@ h4 {
 }
 
 .price-card__includes li {
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.4;
 }
 
@@ -1539,7 +1552,7 @@ h4 {
 .package-detail__grid div {
   position: relative;
   padding-left: 22px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.4;
 }
 
@@ -1557,7 +1570,7 @@ h4 {
   padding-top: 12px;
   border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
 }
 
 /* ===========================================================================
@@ -1607,13 +1620,13 @@ h4 {
 }
 
 .trustpilot-digest__intro h3 {
-  font-size: 20px;
+  font-size: var(--fs-md);
 }
 
 .trustpilot-digest__intro p {
   margin-bottom: 0;
   color: var(--muted);
-  font-size: 15px;
+  font-size: var(--fs-sm);
 }
 
 .trustpilot-logo {
@@ -1632,13 +1645,13 @@ h4 {
 
 .trustpilot-scoreline strong {
   color: var(--deep-teal);
-  font-size: 20px;
+  font-size: var(--fs-md);
   line-height: 1.1;
 }
 
 .trustpilot-scoreline span {
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   line-height: 1.35;
 }
 
@@ -1670,6 +1683,20 @@ h4 {
   align-content: start;
 }
 
+.trustpilot-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.trustpilot-author img {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
 .trustpilot-stars {
   display: block;
   width: 96px;
@@ -1678,9 +1705,9 @@ h4 {
 
 .trustpilot-meta small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--letter-spacing);
   line-height: 1.35;
   text-transform: uppercase;
 }
@@ -1695,7 +1722,7 @@ h4 {
    =========================================================================== */
 .press-logo-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--gap);
 }
 
@@ -1724,6 +1751,10 @@ h4 {
 }
 
 .press-logo-grid img[src$="berliner-morgenpost.svg"] {
+  max-height: 48px;
+}
+
+.press-logo-grid img[src$="hamburg.svg"] {
   max-height: 48px;
 }
 
@@ -1835,7 +1866,7 @@ h4 {
   gap: 10px;
   align-items: start;
   color: var(--text);
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 .reassure .icon {
@@ -1871,7 +1902,7 @@ h4 {
   gap: 6px;
   margin-bottom: 12px;
   color: var(--deep-teal);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   font-weight: 700;
 }
 
@@ -1900,7 +1931,7 @@ h4 {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-sunken);
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 .analysis-form .consent {
@@ -1913,7 +1944,7 @@ h4 {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   font-weight: 400;
   line-height: 1.5;
   cursor: pointer;
@@ -1938,7 +1969,7 @@ h4 {
   display: block;
   margin-top: 7px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--fs-xs);
   line-height: 1.45;
 }
 
@@ -2008,13 +2039,13 @@ dialog[data-lead-modal][open] {
 .analysis-form--modal h3 {
   max-width: calc(100% - 40px);
   margin-bottom: 6px;
-  font-size: 20px;
+  font-size: var(--fs-md);
 }
 
 .lead-modal__subtext {
   margin-bottom: 16px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.45;
 }
 
@@ -2027,7 +2058,7 @@ dialog[data-lead-modal][open] {
 }
 
 .legal-back {
-  font-size: 14px;
+  font-size: var(--fs-sm);
   font-weight: 700;
 }
 
@@ -2040,12 +2071,12 @@ dialog[data-lead-modal][open] {
 }
 
 .legal-page h1 {
-  font-size: clamp(32px, 3.6vw, 44px);
+  font-size: clamp(var(--fs-2xl), 3.6vw, var(--fs-3xl));
 }
 
 .legal-page .lead {
   color: var(--muted);
-  font-size: 16px;
+  font-size: var(--fs-sm);
 }
 
 .legal-flag {
@@ -2055,7 +2086,7 @@ dialog[data-lead-modal][open] {
   border-left: 3px solid #b8860b;
   border-radius: var(--radius-sm);
   background: #fdf8ea;
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
 }
 
@@ -2066,7 +2097,7 @@ dialog[data-lead-modal][open] {
 }
 
 .legal-block h2 {
-  font-size: clamp(20px, 2.4vw, 24px);
+  font-size: clamp(var(--fs-md), 2.4vw, var(--fs-lg));
   margin-bottom: 12px;
 }
 
@@ -2099,9 +2130,9 @@ dialog[data-lead-modal][open] {
 
 .legal-dl dt {
   color: var(--deep-teal);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--letter-spacing);
   text-transform: uppercase;
 }
 
@@ -2114,7 +2145,7 @@ mark.todo {
   box-shadow: inset 0 0 0 1px #d8b52a;
   color: #4a3a00;
   padding: 2px 6px;
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 /* ===========================================================================
@@ -2148,7 +2179,7 @@ mark.todo {
 
 .footer-brand p {
   color: #cfe0e4;
-  font-size: 15px;
+  font-size: var(--fs-sm);
 }
 
 .footer-logo {
@@ -2170,7 +2201,7 @@ mark.todo {
   align-items: center;
   gap: 7px;
   color: #dcecef;
-  font-size: 13px;
+  font-size: var(--fs-xs);
   font-weight: 700;
 }
 
@@ -2188,13 +2219,14 @@ mark.todo {
 .footer-certificate img {
   display: block;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
 }
 
 .footer-certificate figcaption {
   margin-top: 8px;
   color: #b6ccd2;
-  font-size: 12px;
+  font-size: var(--fs-xs);
   line-height: 1.35;
 }
 
@@ -2239,7 +2271,7 @@ mark.todo {
   gap: 8px;
   margin-bottom: 6px;
   color: white;
-  font-size: 16px;
+  font-size: var(--fs-sm);
 }
 
 .site-footer h3 .icon {
@@ -2260,7 +2292,7 @@ mark.todo {
   display: inline-flex;
   width: fit-content;
   color: #cfe0e4;
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 
 .footer-col > a:hover,
@@ -2275,7 +2307,7 @@ mark.todo {
   gap: 8px;
   align-items: start;
   color: #cfe0e4;
-  font-size: 14px;
+  font-size: var(--fs-sm);
   line-height: 1.35;
 }
 
@@ -2296,7 +2328,7 @@ mark.todo {
   padding: 14px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
   color: #b6ccd2;
-  font-size: 12px;
+  font-size: var(--fs-xs);
 }
 
 .footer-bottom a {
@@ -2317,6 +2349,19 @@ mark.todo {
 @media (max-width: 1060px) {
   .masthead {
     grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .quick-spec {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quick-spec div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .quick-spec div:nth-child(3) {
+    padding-left: 0;
+    border-right: 1px solid var(--border);
   }
 
   .menu-toggle {
@@ -2360,6 +2405,7 @@ mark.todo {
   }
 
   .masthead__actions {
+    grid-column: 2;
     justify-self: end;
   }
 
@@ -2383,6 +2429,7 @@ mark.todo {
   .primary-nav.is-open {
     grid-column: 1 / -1;
     display: grid;
+    justify-content: stretch;
     gap: 0;
     padding: 6px 0 10px;
     border-top: 1px solid var(--border);
@@ -2456,7 +2503,7 @@ mark.todo {
   }
 
   .press-logo-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   /* Einspaltig traegt das Hero-Foto keine Spaltenhoehe mehr. */
@@ -2516,6 +2563,10 @@ mark.todo {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .step-card {
+    --thumb: 72px;
+  }
+
   .cta-band {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -2567,6 +2618,8 @@ mark.todo {
   }
 
   .data-table caption {
+    display: block;
+    width: 100%;
     border: 1px solid var(--border);
     border-radius: var(--radius) var(--radius) 0 0;
   }
@@ -2610,11 +2663,26 @@ mark.todo {
     width: calc(46% - 24px);
     color: var(--muted);
     font-weight: 700;
-    font-size: 13px;
+    font-size: var(--fs-xs);
   }
 
   .form-row {
     grid-template-columns: 1fr;
+  }
+}
+
+/*
+  Unter 700 px reicht die halbe Kartenbreite nicht mehr fuer deutsche
+  Komposita – "Haartransplantation" bricht sonst mitten im Wort um.
+  Ab hier einspaltig, dafuer wieder ein groesseres Thumbnail.
+*/
+@media (max-width: 700px) {
+  .card-grid--3.card-grid--pair {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card {
+    --thumb: 84px;
   }
 }
 
@@ -2661,7 +2729,7 @@ mark.todo {
   }
 
   .fact-number {
-    font-size: 21px;
+    font-size: var(--fs-md);
   }
 
   .service-strip__inner {
@@ -2670,7 +2738,7 @@ mark.todo {
   }
 
   .service-item {
-    font-size: 12px;
+    font-size: var(--fs-xs);
   }
 
   .footer-cta {
@@ -2691,14 +2759,13 @@ mark.todo {
     width: 100%;
   }
 
-  .step-card .card__body {
-    grid-template-columns: 52px minmax(0, 1fr);
-    gap: 4px 14px;
+  /* Wieder einspaltig – die Karte ist breit genug fuer ein groesseres Thumbnail. */
+  .step-card {
+    --thumb: 84px;
   }
 
-  .step-card img {
-    width: 52px;
-    height: 52px;
+  .step-card .card__body {
+    gap: 4px 14px;
   }
 
   .clinic-gallery {
@@ -2744,7 +2811,7 @@ mark.todo {
   .data-table td::before {
     top: 7px;
     width: calc(100% - 24px);
-    font-size: 11px;
+    font-size: var(--fs-2xs);
   }
 }
 
