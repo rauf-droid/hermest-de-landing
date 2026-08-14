@@ -910,8 +910,13 @@ h4 {
   margin: 0;
 }
 
+/*
+  height: auto ist Pflicht: sonst gewinnt das height-Attribut des <img> gegen
+  aspect-ratio und das Bild wird in ein falsches Format gezwungen.
+*/
 .document-photo img {
   width: 100%;
+  height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   background: var(--surface-alt);
