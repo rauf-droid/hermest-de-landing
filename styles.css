@@ -718,25 +718,17 @@ h4 {
 }
 
 /*
-  Die Award-Wortmarke liegt als helles Cyan auf transparentem Grund und wuerde
-  auf Weiss verblassen. Kein Kasten drumherum: die Marke ist einfarbig, also
-  dient ihr Alphakanal als Maske und die Flaeche kommt aus dem Marken-Teal –
-  exakt #003e51 statt einer Filter-Annaeherung.
+  Die Original-Wortmarke ist helles Cyan und verblasst auf Weiss. Statt sie per
+  CSS-Filter oder -Maske umzufaerben, liegt sie als eigenes Asset in Marken-Teal
+  vor (…-teal.webp, aus dem Original erzeugt, Alpha unveraendert).
+  Grund: ein reines <img> zeigt das Logo auch dann, wenn CSS veraltet oder gar
+  nicht geladen ist – bei Filter oder Maske waere der Fehlerfall "unsichtbar".
+  Kein Kasten, kein Rahmen: die Marke steht frei ueber der Ueberschrift.
 */
 .award-mark {
   display: block;
   width: min(100%, 230px);
-  aspect-ratio: 1024 / 394;
-  background-color: var(--deep-teal);
-  -webkit-mask: url("assets/awards/european-awards-medicine-2025.webp") no-repeat left center / contain;
-  mask: url("assets/awards/european-awards-medicine-2025.webp") no-repeat left center / contain;
-}
-
-/* Ohne Mask-Unterstuetzung waere die Flaeche ein teal Rechteck – dann lieber nichts. */
-@supports not ((-webkit-mask-image: url("#")) or (mask-image: url("#"))) {
-  .award-mark {
-    background-color: transparent;
-  }
+  height: auto;
 }
 
 /* ===========================================================================
@@ -1660,7 +1652,7 @@ h4 {
    =========================================================================== */
 .press-logo-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--gap);
 }
 
@@ -1688,8 +1680,7 @@ h4 {
   object-fit: contain;
 }
 
-.press-logo-grid img[src$="abendzeitung.svg"],
-.press-logo-grid img[src$="der-spiegel.svg"] {
+.press-logo-grid img[src$="berliner-morgenpost.svg"] {
   max-height: 48px;
 }
 
@@ -2416,10 +2407,13 @@ mark.todo {
   }
 
   .card-grid--4,
-  .press-logo-grid,
   .snapshot__facts,
   .snapshot__summary .checked-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .press-logo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   /* Einspaltig traegt das Hero-Foto keine Spaltenhoehe mehr. */
