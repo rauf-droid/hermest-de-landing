@@ -1459,8 +1459,8 @@ h4 {
   gap: 5px;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
-  background: #c9a04a;
-  color: #2b2106;
+  background: #d4af37;
+  color: #3a2a00;
   font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -1478,7 +1478,7 @@ h4 {
   width: 18px;
   height: 12px;
   border-radius: 2px;
-  outline: 1px solid rgba(43, 33, 6, 0.4);
+  outline: 1px solid rgba(58, 42, 0, 0.4);
   outline-offset: -0.5px;
 }
 
