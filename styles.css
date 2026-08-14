@@ -1049,12 +1049,15 @@ h4 {
   Freigestelltes Gruppenfoto im Querformat (ca. 1100x800). "cover" in einer
   schmalen, hohen Spalte schneidet die beiden aeusseren Personen ab – deshalb
   "contain" auf weisser Flaeche: das Bild bleibt vollstaendig.
+  Unten buendig und ohne Innenabstand, sonst schweben die angeschnittenen
+  Figuren frei in der Flaeche, statt auf der Kartenkante zu stehen.
 */
 .reason-layout .document-photo img {
   aspect-ratio: 4 / 3;
   object-fit: contain;
+  object-position: center bottom;
   background: var(--surface);
-  padding: 10px;
+  padding: 12px 12px 0;
 }
 
 .reason-grid {
