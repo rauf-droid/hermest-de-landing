@@ -1359,6 +1359,78 @@ h4 {
 }
 
 /* ===========================================================================
+   VORHER & NACHHER – kaydırılabilir Carousel, zwei Karten pro Ansicht
+   =========================================================================== */
+.case-carousel {
+  position: relative;
+}
+
+.case-carousel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc(50% - var(--gap) / 2);
+  gap: var(--gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  scrollbar-width: none;
+}
+
+.case-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.case-carousel__slide {
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+.case-carousel__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  transform: translateY(-50%);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--deep-teal);
+  cursor: pointer;
+}
+
+.case-carousel__nav:hover {
+  background: var(--surface-alt);
+  border-color: var(--deep-teal);
+}
+
+.case-carousel__nav--prev {
+  left: 8px;
+}
+
+.case-carousel__nav--next {
+  right: 8px;
+}
+
+/* Ab hier ist links/rechts vom Container genug Luft, um die Pfeile nach außen zu setzen. */
+@media (min-width: 1061px) {
+  .case-carousel__nav--prev {
+    left: -20px;
+  }
+
+  .case-carousel__nav--next {
+    right: -20px;
+  }
+}
+
+.case-carousel__nav--prev .icon {
+  transform: rotate(180deg);
+}
+
+/* ===========================================================================
    CTA-BÄNDER
    Hell ist der Standard. Dunkel genau einmal, vor den Preisen.
    =========================================================================== */
@@ -2512,6 +2584,11 @@ mark.todo {
     grid-template-columns: 1fr;
   }
 
+  /* Das Klinikfoto steht mobil vor dem Text, nicht danach. */
+  .hero__aside {
+    order: -1;
+  }
+
   .patient-video-frame,
   .trustpilot-digest__intro {
     border-right: 0;
@@ -2711,6 +2788,23 @@ mark.todo {
 @media (max-width: 560px) {
   .container {
     width: min(100% - 22px, var(--container));
+  }
+
+  .case-carousel__track {
+    grid-auto-columns: calc(85% - var(--gap) / 2);
+  }
+
+  .case-carousel__nav {
+    width: 34px;
+    height: 34px;
+  }
+
+  .case-carousel__nav--prev {
+    left: 4px;
+  }
+
+  .case-carousel__nav--next {
+    right: 4px;
   }
 
   .masthead {

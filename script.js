@@ -49,6 +49,24 @@ if ((mobileCta || waFloat) && heroSection && "IntersectionObserver" in window) {
   }
 }
 
+/* Vorher-Nachher-Carousel: pro Klick um zwei Kartenbreiten weiterscrollen. */
+const caseTrack = document.querySelector("[data-case-track]");
+const casePrev = document.querySelector("[data-case-prev]");
+const caseNext = document.querySelector("[data-case-next]");
+
+if (caseTrack && casePrev && caseNext) {
+  const scrollByCards = (direction) => {
+    const slide = caseTrack.querySelector(".case-carousel__slide");
+    if (!slide) return;
+    const gap = parseFloat(getComputedStyle(caseTrack).columnGap) || 0;
+    const step = (slide.getBoundingClientRect().width + gap) * 2;
+    caseTrack.scrollBy({ left: direction * step, behavior: "smooth" });
+  };
+
+  casePrev.addEventListener("click", () => scrollByCards(-1));
+  caseNext.addEventListener("click", () => scrollByCards(1));
+}
+
 document.querySelectorAll("[data-video-embed]").forEach((button) => {
   button.addEventListener("click", () => {
     const videoId = button.dataset.videoId;
