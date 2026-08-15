@@ -454,68 +454,7 @@ h4 {
    Einzige Ausnahme von der Schattenregel: Elemente, die über dem Inhalt
    liegen, brauchen eine minimale Abgrenzung.
    =========================================================================== */
-.wa-float {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 45;
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  height: 54px;
-  padding: 0 16px;
-  border-radius: var(--radius);
-  background: #25d366;
-  color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(14px);
-  transition: opacity 220ms ease, transform 220ms ease, visibility 220ms,
-    gap 180ms ease, padding 180ms ease;
-}
-
-.wa-float.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.wa-float:hover {
-  background: #1fbb59;
-  text-decoration: none;
-}
-
-.wa-float .icon {
-  width: 25px;
-  height: 25px;
-}
-
-.wa-float__label {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  font-weight: 700;
-  font-size: var(--fs-sm);
-  opacity: 0;
-  transition: max-width 220ms ease, opacity 180ms ease;
-}
-
-.wa-float:hover .wa-float__label,
-.wa-float:focus-visible .wa-float__label {
-  max-width: 220px;
-  margin-left: 10px;
-  opacity: 1;
-}
-
-.wa-float:focus-visible {
-  outline: 3px solid var(--deep-teal);
-  outline-offset: 3px;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .wa-float,
-  .wa-float__label,
   .mobile-cta {
     transition: none;
   }
@@ -1428,6 +1367,35 @@ h4 {
 
 .case-carousel__nav--prev .icon {
   transform: rotate(180deg);
+}
+
+.case-carousel__dots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.case-carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+.case-carousel__dot.is-active {
+  background: var(--deep-teal);
+}
+
+/* Unter 1061px übernehmen Dots die Orientierung, die Pfeile treten zurück. */
+@media (max-width: 1060px) {
+  .case-carousel__nav {
+    display: none;
+  }
+
+  .case-carousel__dots {
+    display: flex;
+  }
 }
 
 /* ===========================================================================
@@ -2551,29 +2519,6 @@ mark.todo {
     padding-bottom: 70px;
   }
 
-  /* Über die CTA-Leiste heben, damit sich beide nicht überlagern. */
-  .wa-float {
-    right: 14px;
-    bottom: calc(78px + env(safe-area-inset-bottom, 0px));
-    height: 50px;
-    padding: 0 14px;
-  }
-
-  .wa-float .icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  /* Auf Touchgeräten gibt es kein Hover – Label bleibt eingeklappt. */
-  .wa-float__label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
-
   .hero__grid,
   .reason-layout,
   .patient-story,
@@ -2792,19 +2737,6 @@ mark.todo {
 
   .case-carousel__track {
     grid-auto-columns: calc(85% - var(--gap) / 2);
-  }
-
-  .case-carousel__nav {
-    width: 34px;
-    height: 34px;
-  }
-
-  .case-carousel__nav--prev {
-    left: 4px;
-  }
-
-  .case-carousel__nav--next {
-    right: 4px;
   }
 
   .masthead {

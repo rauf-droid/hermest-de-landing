@@ -258,10 +258,6 @@
       <symbol id="icon-chevron" viewBox="0 0 24 24">
         <path d="M9 6l6 6-6 6" />
       </symbol>
-      <!-- Offizielle WhatsApp-Wortbildmarke (Quelle: Meta Brand Resources) -->
-      <symbol id="icon-whatsapp" viewBox="0 0 24 24">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-      </symbol>
     </svg>
 
     <header id="top" class="site-header">
@@ -392,61 +388,19 @@
             </p>
           </div>
 
-          <!-- Fallkarten als kaydırılabilir Carousel: zwei Karten pro Bildschirm, per Pfeile weiterschaltbar. -->
+          <!-- Fallkarten als kaydırılabilir Carousel: rein visuell, ohne Text/CTA auf den Karten. -->
           <div class="case-carousel">
             <div class="case-carousel__track" data-case-track>
               <article class="card case-carousel__slide">
                 <img class="card__media" src="assets/images/case-3312.webp" alt="Vorher-Nachher-Beispiel einer Haartransplantation mit 3312 Grafts" loading="lazy" decoding="async" />
-                <div class="card__body">
-                  <div class="card__foot">
-                    <button
-                      type="button"
-                      class="link-trigger"
-                      data-lead-trigger
-                      data-topic="Fallbeispiel 01 – DHI, 3.312 Grafts"
-                      data-heading="Vergleichbaren Fall besprechen"
-                      data-subtext="Wir ordnen dieses Beispiel für Ihre Ausgangslage ein."
-                    >
-                      Fall besprechen
-                    </button>
-                  </div>
-                </div>
               </article>
 
               <article class="card case-carousel__slide">
                 <img class="card__media" src="assets/images/case-3577.webp" alt="Vorher-Nachher-Beispiel einer Haartransplantation mit 3577 Grafts" loading="lazy" decoding="async" />
-                <div class="card__body">
-                  <div class="card__foot">
-                    <button
-                      type="button"
-                      class="link-trigger"
-                      data-lead-trigger
-                      data-topic="Fallbeispiel 02 – DHI, 3.577 Grafts"
-                      data-heading="Vergleichbaren Fall besprechen"
-                      data-subtext="Wir ordnen dieses Beispiel für Ihre Ausgangslage ein."
-                    >
-                      Fall besprechen
-                    </button>
-                  </div>
-                </div>
               </article>
 
               <article class="card case-carousel__slide">
                 <img class="card__media" src="assets/images/case-4176.webp" alt="Vorher-Nachher-Beispiel einer Haartransplantation mit 4716 Grafts" loading="lazy" decoding="async" />
-                <div class="card__body">
-                  <div class="card__foot">
-                    <button
-                      type="button"
-                      class="link-trigger"
-                      data-lead-trigger
-                      data-topic="Fallbeispiel 03 – Unique FUE, 4.716 Grafts"
-                      data-heading="Vergleichbaren Fall besprechen"
-                      data-subtext="Wir ordnen dieses Beispiel für Ihre Ausgangslage ein."
-                    >
-                      Fall besprechen
-                    </button>
-                  </div>
-                </div>
               </article>
             </div>
 
@@ -456,6 +410,12 @@
             <button type="button" class="case-carousel__nav case-carousel__nav--next" data-case-next aria-label="Weitere Fälle anzeigen">
               <svg class="icon" aria-hidden="true"><use href="#icon-chevron"></use></svg>
             </button>
+
+            <div class="case-carousel__dots" data-case-dots aria-hidden="true">
+              <span class="case-carousel__dot is-active"></span>
+              <span class="case-carousel__dot"></span>
+              <span class="case-carousel__dot"></span>
+            </div>
           </div>
 
           <div class="caption-box">
@@ -1534,22 +1494,6 @@
         </nav>
       </div>
     </footer>
-
-    <!--
-      WhatsApp-Nummer bitte prüfen: hier ist aktuell die Festnetznummer der Seite hinterlegt.
-      Für WhatsApp wird die verifizierte WhatsApp-Business-Nummer benötigt (Format ohne + und ohne 00).
-    -->
-    <a
-      class="wa-float"
-      data-wa-float
-      href="https://wa.me/4930754376422?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Haartransplantation%20und%20h%C3%A4tte%20gerne%20eine%20kostenlose%20Haaranalyse."
-      target="_blank"
-      rel="noopener"
-      aria-label="Beratung per WhatsApp starten – öffnet WhatsApp in einem neuen Tab"
-    >
-      <svg class="icon icon--brand" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
-      <span class="wa-float__label">Per WhatsApp fragen</span>
-    </a>
 
     <div class="mobile-cta" data-mobile-cta aria-label="Schnellkontakt">
       <a class="mobile-cta__call" href="tel:+4930754376422">

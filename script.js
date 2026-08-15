@@ -16,18 +16,15 @@ if (menuToggle && primaryNav) {
 
 /* Schwebende Kontaktelemente: erst nach dem Hero einblenden, im Kontaktbereich wieder ausblenden. */
 const mobileCta = document.querySelector("[data-mobile-cta]");
-const waFloat = document.querySelector("[data-wa-float]");
 const heroSection = document.querySelector("#uebersicht");
 const contactSection = document.querySelector("#kontakt");
 
-if ((mobileCta || waFloat) && heroSection && "IntersectionObserver" in window) {
+if (mobileCta && heroSection && "IntersectionObserver" in window) {
   let heroPassed = false;
   let atContact = false;
 
   const sync = () => {
-    if (mobileCta) mobileCta.classList.toggle("is-visible", heroPassed && !atContact);
-    // WhatsApp bleibt auch im Kontaktbereich erreichbar – dort ist es eine echte Alternative zum Formular.
-    if (waFloat) waFloat.classList.toggle("is-visible", heroPassed);
+    mobileCta.classList.toggle("is-visible", heroPassed && !atContact);
   };
 
   new IntersectionObserver(
@@ -65,6 +62,35 @@ if (caseTrack && casePrev && caseNext) {
 
   casePrev.addEventListener("click", () => scrollByCards(-1));
   caseNext.addEventListener("click", () => scrollByCards(1));
+}
+
+/* Dots zeigen mobil, welche Karte gerade im Fokus ist – aktualisiert sich beim Scrollen/Wischen. */
+const caseDots = document.querySelectorAll("[data-case-dots] .case-carousel__dot");
+
+if (caseTrack && caseDots.length) {
+  const slides = [...caseTrack.querySelectorAll(".case-carousel__slide")];
+
+  const syncDots = () => {
+    const trackRect = caseTrack.getBoundingClientRect();
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    slides.forEach((slide, index) => {
+      const distance = Math.abs(slide.getBoundingClientRect().left - trackRect.left);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    caseDots.forEach((dot, index) => dot.classList.toggle("is-active", index === closestIndex));
+  };
+
+  let scrollTimeout;
+  caseTrack.addEventListener("scroll", () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(syncDots, 100);
+  });
 }
 
 document.querySelectorAll("[data-video-embed]").forEach((button) => {
